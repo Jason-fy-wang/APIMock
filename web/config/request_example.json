@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "b1c2d3e4",
+    "name": "Example Collection",
+    "requests": [
+      {
+        "_id": "a1b2c3d4",
+        "name": "Get Users",
+        "method": "GET",
+        "url": "http://localhost:3000/users",
+        "headers": [
+          {
+            "name": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "type": "json",
+          "raw": ""
+        }
+      }
+    ]
+  }
+]

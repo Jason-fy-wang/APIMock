@@ -1,0 +1,46 @@
+{
+    "mock": [
+        {
+            "url": "/api/v1/example",
+            "method": "GET",
+            "response": {
+                "status": 200,
+                 "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "message": "This is an example response"
+                }
+            }
+        },
+        {
+            "url": "/api/v1/example",
+            "method": "POST",
+            "response": {
+                "status": 201,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "test-header": "test-value"
+                },
+                "body": {
+                    "message": "Resource created successfully"
+                }
+            }
+        },
+        {
+            "url": "/api/v2/example",
+            "method": "GET",
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json",
+                    "X-Test-header": "test-valuev2"
+                },
+                "body": {
+                    
+                }
+            }
+        }
+
+    ]
+}
