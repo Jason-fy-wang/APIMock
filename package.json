@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server.test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "server.test.coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+    "server.test.coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "web.start": "node web/starter.js"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",

@@ -18,6 +18,15 @@ export default defineConfig({
         // 如果需要rewrite，可以使用以下配置
         //rewrite: (path) => path.replace(/^\/api/, '/api/')
       }
-    } 
+    }
+  },
+  build: {
+    outDir: 'web/public', // 输出目录
+    emptyOutDir: true, // 清空输出目录
+    rollupOptions: {
+      input: {
+        main: 'index.html', // 入口文件
+      }
+    }
   }
 })
