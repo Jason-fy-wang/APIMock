@@ -65,12 +65,12 @@ function configCommonFunction(app){
             return res.status(400).json({ error: 'Invalid config format' });
         }
         try {
-        const exConfig = await loadConfig('mock.json')
-        exConfig.mock.push(data);
+            const exConfig = await loadConfig('mock.json')
+            exConfig.mock.push(data);
 
-        console.log('Updated config:', exConfig);
-        await configRouteFromcFile(app, exConfig);
-        res.status(200).json({ message: 'Config updated successfully' });
+            console.log('Updated config:', exConfig);
+            await configRouteFromcFile(app, exConfig);
+            res.status(200).json({ message: 'Config updated successfully' });
         } catch (error) {
             console.error('Error updating config:', error);
             res.status(500).json({ error: 'Internal server error' });
