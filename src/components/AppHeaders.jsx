@@ -2,9 +2,7 @@ import {Table, Divider, Input, Button, Space}  from 'antd'
 import { useState } from 'react'
 
 
-function AppHeaders(){
-
-    const [dataColumns, setDataColumns] = useState([{id: Date.now(), key: '', value: ''}])
+function AppHeaders({dataColumns, setDataColumns}){
 
     const handleChange = (value, id, field) => {
         const newData = dataColumns.map(item => {

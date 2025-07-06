@@ -4,7 +4,7 @@ import { app,setupApp } from '../server.js'; // Adjust the path as necessary
 
 describe('API Mock Server', () => {
     beforeEach(async () => {
-        setupApp(app);
+        setupApp(app, 'example.json');
     });
 
     it('should return a 200 response for GET /', async () => {        

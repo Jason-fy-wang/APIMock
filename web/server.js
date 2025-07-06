@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,14 +23,14 @@ async function loadConfig(filename) {
     }
 }
 
-async function configRouteFromcFile(app, configfile){
+async function configRouteFromcFile(app, config){
     // empty existing routes
     if (app._router && app._router.stack) {
         app._router.stack = app._router.stack.filter(
             (layer) => !(layer.route) // keep only middleware, remove routes
         );
     }
-    const config  = await loadConfig(configfile);
+    //const config  = await loadConfig(configfile);
     //console.log('Loaded example config:', JSON.stringify(config));
     config.mock.forEach((route) => {
         app[route.method.toLowerCase()](route.url, (req, res) => {
@@ -56,11 +57,43 @@ function configCommonFunction(app){
         res.status(200).send('Server is healthy!');
     });
 
+    // accept config
+    app.post('/api/v1/config', async (req, res) => {
+        const data = req.body;
+        console.log('Received config data:', data);
+        if (typeof data !== 'object' || data === null) {
+            return res.status(400).json({ error: 'Invalid config format' });
+        }
+        try {
+        const exConfig = await loadConfig('mock.json')
+        exConfig.mock.push(data);
+
+        console.log('Updated config:', exConfig);
+        await configRouteFromcFile(app, exConfig);
+        res.status(200).json({ message: 'Config updated successfully' });
+        } catch (error) {
+            console.error('Error updating config:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
+    
     return app;
 }
 
-function middileware(app, middlewareFunction){
-    app.use(middlewareFunction);
+function middileware(app){
+    // config cross region
+    app.use(cors(
+        {
+            origin: '*', // Allow all origins
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+            allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+            credentials: true // Allow credentials
+        }
+    ));
+    // json middleware for body parsing
+    app.use(express.json());
+    // urlencoded middleware for form data parsing  
+    app.use(express.urlencoded({ extended: true }));
     return app;
 }
 
@@ -70,12 +103,14 @@ function staticConfig(app, folder){
 
     return app;
 }
-    const app = express();
 
-export async function setupApp(app){
-    await configRouteFromcFile(app, 'example.json');
+const app = express();
+
+export async function setupApp(app, configfile = 'mock.json') {
+    middileware(app);
+    const config  = await loadConfig(configfile);
     configCommonFunction(app);
-
+    await configRouteFromcFile(app, config);
     staticConfig(app, path.join(__dirname, 'public'));
 }
 async function start(){
