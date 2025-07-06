@@ -1,16 +1,15 @@
 import { message } from "antd";
 
-const [messageApi, contextHolder] = message.useMessage();
 
 function showMessage(type, content) {
     if (type === 'success') {
-        messageApi.success(content);
+        message.success(content);
     } else if (type === 'error') {
-        messageApi.error(content);
+        message.error(content);
     } else if (type === 'info') {
-        messageApi.info(content);
+        message.info(content);
     } else if (type === 'warning') {
-        messageApi.warning(content);
+        message.warning(content);
     } else {
         console.warn('Unknown message type:', type);
     }
