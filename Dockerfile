@@ -1,12 +1,10 @@
 FROM node:22.17 AS builder
 
-USER 10014
-# Set the working directory
 WORKDIR /app
 
 COPY . .
 
-RUN npm ci
+RUN npm i
 
 RUN npm run build
 
