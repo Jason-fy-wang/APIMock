@@ -32,10 +32,12 @@ function mockNewApi(data){
     })
     .then(data => {
         console.log('Success:', data);
+        showMessage('success', data.message || "success");
     })
     .catch(error => {
         //showMessage('error', 'Failed to create mock API: ' + error.message);
         console.error('Error:', error);
+        showMessage('error', error.message  || "add mock fail");
         return error
     });
 }

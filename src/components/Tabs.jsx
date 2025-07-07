@@ -5,7 +5,7 @@ import AppResponse from "./AppResponseMsg"
 import AppStatus from "./AppStatus"
 import { useState } from "react"
 import { Divider } from "antd"
-import {mockNewApi} from "../api/ApiClient"
+import {mockNewApi, showMessage} from "../api/ApiClient"
 
 function AppTabs() {
     const [uri, setUri] = useState("")
