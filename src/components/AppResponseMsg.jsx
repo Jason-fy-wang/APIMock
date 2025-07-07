@@ -28,7 +28,13 @@ function AppResponse({body, setBody,activeKey, setActiveKey}) {
     }
     function handleJsonChange(val) {
         setJsonBody(val);
-        setBody(JSON.stringify(JSON.parse(val)).replace(/[\r\n]+/g, "").replace(/\s+/g, "").trim()); // Format JSON
+        try {
+            const data = JSON.parse(val)
+            setBody(JSON.stringify(data).replace(/[\r\n]+/g, "").replace(/\s+/g, "").trim()); // Format JSON
+        }catch(err) {
+            //console.log("handleJsonChange error: ", err.message)
+        }
+        
     }
     function handleXmlChange(val) {
         setXmlBody(val);

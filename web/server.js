@@ -48,6 +48,39 @@ async function configRouteFromcFile(app, config){
     return app;
 }
 
+function fetchHttpFields() {
+    let fields = []
+    try {
+        const filepath = path.join(dirconfig, "field-names.csv")
+        const csv = fs.readFileSync(filepath, {encoding: 'utf-8', flag: 'r'})
+        const lines = csv.split(/\r?\n/).filter(line => line.length > 0).slice(1)
+        fields = lines.reduce((acc, line)=> {
+            acc.push({"value": line.split(",")[0]})
+            return acc;
+        }, [])
+    }catch(err) {
+        logger.error("fetchHttpFields error: ", err)
+    }
+    return fields
+}
+
+
+function fetchApplicationValues() {
+    let fields = []
+    try {
+        const filepath = path.join(dirconfig, "application.csv")
+        const csv = fs.readFileSync(filepath, {encoding: 'utf-8', flag: 'r'})
+        const lines = csv.split(/\r?\n/).filter(line => line.length > 0).splice(1)
+        fields = lines.reduce((arr, line) => {
+            arr.push({"value": line.split(",")[1]})
+            return arr;
+        },[])
+    }catch(error) {
+        logger.error("fetchApplicationValues errors: ", error)
+    }
+    return fields
+}
+
 function configCommonFunction(app){
     app.get('/', (req, res) => {
         res.status(200).send('Welcome to the server!');
@@ -57,6 +90,15 @@ function configCommonFunction(app){
         res.status(200).send('Server is healthy!');
     });
 
+    app.get('/api/v1/keys', async (req, res) => {
+        const keys = fetchHttpFields()
+        res.status(200).json(keys)
+    })
+
+    app.get('/api/v1/values', async (req, res)=>{
+        const values= fetchApplicationValues()
+        res.status(200).json(values)
+    })
     // accept config
     app.post('/api/v1/config', async (req, res) => {
         const data = req.body;

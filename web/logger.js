@@ -1,7 +1,9 @@
 import winston from "winston";
 import "winston-daily-rotate-file";
 
-const {combine, timestamp, printf} = winston.format;
+const {format} = winston
+const {combine, timestamp, printf} = format
+
 
 const fileRotateTransport = new winston.transports.DailyRotateFile({
   filename: "logs/%DATE%.log",
@@ -16,6 +18,7 @@ const logger = winston.createLogger({
   defaultMeta: { service: "mock-api" },
   exitOnError: false,
   format: combine(
+    format.errors({stack: true}),
     timestamp({
         format: "YYYY-MM-DD HH:mm:ss.SSS"
     }),
