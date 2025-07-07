@@ -83,7 +83,7 @@ function fetchApplicationValues() {
 
 function configCommonFunction(app){
     app.get('/', (req, res) => {
-        res.status(200).send('Welcome to the server!');
+        res.redirect("/index.html")
         }
     );
     app.get('/health', (req, res) => {
