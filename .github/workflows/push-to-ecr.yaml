@@ -30,7 +30,6 @@ jobs:
           ECR_REGISTRY: ${{secrets.ECR_REPOSITORY}}
           IMAGE_TAG: ${{github.sha}}
         run: |
-        # build
           docker build -t $ECR_REGISTRY:$IMAGE_TAG
           docker tag $ECR_REGISTRY:$IMAGE_TAG $ECR_REGISTRY:latest
           docker push $ECR_REGISTRY:$IMAGE_TAG
