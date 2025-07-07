@@ -27,7 +27,7 @@ const logger = winston.createLogger({
     })
   ),
   transports: [
-    fileRotateTransport,
+    //fileRotateTransport,   // for docker deploy,  disable output to file
     new winston.transports.Console()
   ],
 });
