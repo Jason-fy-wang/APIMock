@@ -15,31 +15,29 @@ function showMessage(type, content) {
     }
 }
 
-function mockNewApi(data){
-    fetch('/api/v1/config', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
+// convert async to sync
+async function mockNewApi(data){
+    try{
+        const response = await fetch('/api/v1/config', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        if (!response.ok){
             showMessage('error','Network response was not ok');
+            return false;
         }
-        //showMessage('success', 'New mock API created successfully');
-        return response.json();  // become next then resolved value
-    })
-    .then(data => {
-        console.log('Success:', data);
-        showMessage('success', data.message || "success");
-    })
-    .catch(error => {
-        //showMessage('error', 'Failed to create mock API: ' + error.message);
+        
+        const result = await response.json();
+        showMessage('success', result.message || "success");
+        return true;
+    }catch(error){
         console.error('Error:', error);
         showMessage('error', error.message  || "add mock fail");
-        return error
-    });
+        return false
+    }
 }
 
 async function getHttpKeys(){

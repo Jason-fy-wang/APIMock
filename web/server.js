@@ -36,10 +36,10 @@ async function configRouteFromcFile(app, config){
         app[route.method.toLowerCase()](route.url, (req, res) => {
             // Set headers
             if (route.response.headers) {
-                Object.entries(route.response.headers).forEach(([key, value]) => {
+                Object.entries(route.response.headers).filter(([k,v]) => k !== "" && v !== "").forEach(([key,value]) => {
                     logger.info(`Setting header: ${key} = ${value}`);
                     res.setHeader(key, value);
-                });
+                })
             }
             logger.info("Response headers:", res.getHeaders());
             res.status(route.response.status).json(route.response.body);
