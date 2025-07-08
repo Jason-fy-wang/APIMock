@@ -31,11 +31,11 @@ jobs:
 
       - name: login public ECR
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x4t1x7j1
 
       - name: Build,tag and push to ECR
         env:
-          ECR_REGISTRY: public.ecr.aws/${{secrets.ECR_REPOSITORY}}
+          ECR_REGISTRY: ${{secrets.ECR_REPOSITORY}}
           IMAGE_TAG: latest
         run: |
           docker build -t $ECR_REGISTRY:$IMAGE_TAG .
