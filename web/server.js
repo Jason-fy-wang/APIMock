@@ -158,7 +158,7 @@ export async function setupApp(app, configfile = 'mock.json') {
 async function start(){
     await setupApp(app);
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
+    app.listen(PORT,'0.0.0.0', () => {
         logger.info(`Server is running on http://localhost:${PORT}`);
     });
 }
