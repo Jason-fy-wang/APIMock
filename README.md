@@ -22,3 +22,18 @@ http://13.239.238.244:3000/index.html
 ![](./images/header.png)
 
 ![](./images/response.png)
+
+example：
+```
+mock:
+GET /api/v1/example
+header:
+mock-key: mock-value
+response:
+{
+    "key1": "value1",
+    "key2": "value2",
+    "key3": "value3",
+}
+```
+![](./images/example.png)
