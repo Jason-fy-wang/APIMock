@@ -1,0 +1,33 @@
+{
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "32gb"
+    },
+    "overrideCommand": false,
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers-cnotrib/features/kind:1":{}
+    },
+    "mounts": [
+        "source=var-lib-docker, target=/var/lib/docker,type=volume",
+        "source=kube, target=/home/vscode/.kube, type=volume"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "formulahendry.auto-close-tag",
+                "GitHub.github-vscode-theme"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "runArgs": [
+        "--privileged",
+        "--init"
+    ],
+
+    "onCreateCommand": "echo 'alias k=kubectl' >> ~/.bashrc",
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y httpie",
+    "postAttachCommand": "git pull --all"
+}
+
