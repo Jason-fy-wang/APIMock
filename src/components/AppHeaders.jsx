@@ -1,8 +1,24 @@
-import {Table, Divider, Input, Button, Space}  from 'antd'
-import { useState } from 'react'
+import {Table, Divider, Input, Button, Space, AutoComplete}  from 'antd'
+import { useState, useEffect } from 'react'
+import { getHttpKeys,getHttpValues } from '../api/ApiClient'
 
 
 function AppHeaders({dataColumns, setDataColumns}){
+
+    const [keys, setKeys] = useState([])
+    const [filterKeys, setFilterKeys] = useState([])
+    const [vals, setVals] = useState([])
+    const [filterVals, setFilterVals] = useState([])
+
+    // empty dependency, so run only once at start
+    useEffect(()=>{
+       getHttpKeys().then(data => setKeys(data)).catch(err => {
+         showMessage("error", "get http kyes error, "+ err.message)
+       })
+        getHttpValues().then(data => setVals(data)).catch(err => {
+         showMessage("error", "get http value error, "+ err.message)
+       })
+    },[])
 
     const handleChange = (value, id, field) => {
         const newData = dataColumns.map(item => {
@@ -22,16 +38,45 @@ function AppHeaders({dataColumns, setDataColumns}){
         setDataColumns(newData)
     }
 
+    function handleKeySearch(inputVal) {
+        if(!inputVal){
+            setFilterKeys([])
+            return
+        }
+        
+        const filtered = keys.filter(opt =>
+            opt.value.toLowerCase().includes(inputVal.toLowerCase())
+        );
+        // limit number to 5
+        const limited = filtered.slice(0, 5);
+        setFilterKeys(limited);
+    }
+
+    function handleValueSearch(inputVal) {
+        if (!inputVal){
+            setFilterVals([])
+            return
+        }
+        const filtered = vals.filter(opt =>
+            opt.value.toLowerCase().includes(inputVal.toLowerCase())
+        );
+        // limit number to 5
+        const limited = filtered.slice(0, 5);
+        setFilterVals(limited)
+    }
+
     const columns = [
         {
             dataIndex: 'key',
             title: 'Key',
             render: (text, record) => {
                 return (
-                <Input
+                <AutoComplete style={{width: '100%'}}
+                    options={filterKeys}
                     value={text}
-                    onChange={(e) => {
-                        handleChange(e.target.value, record.id, 'key')
+                    onSearch={handleKeySearch}
+                    onChange={(value) => {
+                        handleChange(value, record.id, 'key')
                     }}
                 />
                 )
@@ -42,10 +87,12 @@ function AppHeaders({dataColumns, setDataColumns}){
             title: 'Value',
             render: (text, record) => {
                 return (
-                    <Input
+                    <AutoComplete style={{width: '100%'}}
+                        options={filterVals}
                         value={text}
-                        onChange={(e) => {
-                            handleChange(e.target.value, record.id, 'value')
+                        onSearch={handleValueSearch}
+                        onChange={(value) => {
+                            handleChange(value, record.id, 'value')
                         }}
                     />
                 )

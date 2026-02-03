@@ -32,7 +32,7 @@ function AppJsonMsg({value, setJasonValue}) {
             </Button>
             <Divider />
             <TextArea
-                style={{ width: '100%', height: '300px', paddingTop: 30 }}
+                style={{ width: '100%', height: '300px' }}
                 showCount
                 placeholder="response body in JSON format"
                 value={value}

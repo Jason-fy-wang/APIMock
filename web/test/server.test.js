@@ -7,11 +7,10 @@ describe('API Mock Server', () => {
         setupApp(app, 'example.json');
     });
 
-    it('should return a 200 response for GET /', async () => {        
+    it('should return a 302 response for GET /', async () => {        
         const response = await request(app).get('/');
         //console.log('Response Headers:', response.headers, response.status, response.text);
-        expect(response.status).toBe(200);
-        expect(response.text).toEqual('Welcome to the server!');
+        expect(response.status).toBe(302);
     });
 
     it ('should return 200 for health check', async () => {

@@ -1,4 +1,4 @@
-import { Tabs, Button } from "antd"
+import { Tabs, Button, message } from "antd"
 import AppUri from "./AppUri"
 import AppHeaders from "./AppHeaders"
 import AppResponse from "./AppResponseMsg"
@@ -16,11 +16,16 @@ function AppTabs() {
     const [method, setMethod] = useState("GET");
 
     function NewMock() {
-        const headers = dataColumns.reduce((acc, col) => {
+        if (uri === "" || body === ""){
+            message.info("please config url and response body")
+            return
+        }
+        const headers = dataColumns.filter((id,key,val) => key !== "" && val !== "").reduce((acc, col) => {
             acc[col.key] = col.value;
             return acc;
         }, {});
         //console.log("New Mock Request method: ", method, " url: ", uri, " headers: ", headers, "columns: ", dataColumns, " body: ", body, " status code: ", statusCode);
+
         const date = {
             url: uri,
             method: method,
@@ -31,7 +36,17 @@ function AppTabs() {
             }
         }
         console.log("New Mock Request: ", date);
-        mockNewApi(date);
+        const val = mockNewApi(date)
+        if (val){
+            console.log("calling clear")
+            clearValue()
+        }
+    }
+
+    function clearValue(){
+        setUri("")
+        setDataColumns([{id: Date.now(), key: '', value: ''}])
+        setBody("")
     }
 
     const items = [
