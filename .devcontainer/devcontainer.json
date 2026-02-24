@@ -6,7 +6,7 @@
     "overrideCommand": false,
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-        "ghcr.io/devcontainers-cnotrib/features/kind:1":{}
+        "ghcr.io/devcontainers-extra/features/kind:1":{}
     },
     "mounts": [
         "source=var-lib-docker, target=/var/lib/docker,type=volume",
