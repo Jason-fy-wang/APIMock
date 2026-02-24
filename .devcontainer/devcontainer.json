@@ -9,8 +9,8 @@
         "ghcr.io/devcontainers-extra/features/kind:1":{}
     },
     "mounts": [
-        "source=var-lib-docker, target=/var/lib/docker,type=volume",
-        "source=kube, target=/home/vscode/.kube, type=volume"
+        "source=var-lib-docker,target=/var/lib/docker,type=volume",
+        "source=kube,target=/home/vscode/.kube,type=volume"
     ],
     "customizations": {
         "vscode": {
