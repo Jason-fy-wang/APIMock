@@ -27,6 +27,7 @@ spec:
       containers:
       - name:  mockapi
         image:  mock:1.0
+        imagePullPolicy: IfNotPresent
         resources:
           requests:
             cpu: 100m

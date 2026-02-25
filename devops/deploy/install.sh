@@ -16,4 +16,13 @@ kind load docker-image mock:1.0 --name mock-cluster
 # check kind images
 docker exec -it mock-control-plane crictl images
 
+# ingress-controller logs
+kubectl logs -n ingress-nginx deploy/ingress-nginx-controller -f
 
+# jump into k8s cluter and test service
+## 
+kubectl run tmp --rm -it --image=busybox -- sh
+## wget -O- http://mockapi.mockspace.svc.cluster.local:8080/hello
+
+# k8s port-forward
+kubectl port-forward -n mockspace svc/mockservice 8080:80
