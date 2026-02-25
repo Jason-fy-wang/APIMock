@@ -5,7 +5,7 @@ metadata:
   namespace: mockspace
 spec:
   selector:
-    app: mockApi
+    app: mockapi
   type: ClusterIP
   sessionAffinity: None
   sessionAffinityConfig:
