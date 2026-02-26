@@ -33,12 +33,12 @@ spec:
             name: mockconfig
             #key: PORT    # we can inject specific key from configmap, but here we inject all keys
             #key: APP_ENV
-        env:
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mocksecret
-              key: DB_PASSWORD
+        # env:
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: mocksecret
+        #       key: DB_PASSWORD
         resources:
           requests:
             cpu: 100m
@@ -48,7 +48,7 @@ spec:
             memory: 100Mi
         livenessProbe:
           tcpSocket:
-            port: 3000
+            port: mockport   # use named port here.
           initialDelaySeconds: 5
           timeoutSeconds: 5
           successThreshold: 1
@@ -57,15 +57,15 @@ spec:
         readinessProbe:
           httpGet:
             path: /health
-            port: 3000
+            port: mockport   # use named port here.
           initialDelaySeconds: 5
           timeoutSeconds: 2
           successThreshold: 1
           failureThreshold: 3
           periodSeconds: 10
         ports:
-        - containerPort:  3000
-          name:  mockapi
+        - containerPort:  3000   # this doesn't affect the real pod port. just metadata
+          name:  mockport   # named port
         volumeMounts:
         - name: localtime
           mountPath: /etc/localtime

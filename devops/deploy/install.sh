@@ -32,3 +32,6 @@ kubectl create configmap mock-config --from-literal=key=value -n mockspace
 
 #create secret from cmd
 kubectl create secret generic mock-secret --from-literal=username=admin --from-literal=password=secret -n mockspace
+
+# set namespace config:
+kubectl config set-context --current --namespace=mockspace

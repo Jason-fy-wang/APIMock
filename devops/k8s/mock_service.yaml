@@ -15,7 +15,6 @@ spec:
   - name: mockservice
     protocol: TCP
     port: 80
-    targetPort: 3000
-    # If you set the `spec.type` field to `NodePort` and you want a specific port number,
-    # you can specify a value in the `spec.ports[*].nodePort` field.
+    targetPort: mockport   # this should match the named port in deployment, and it can be different from containerPort
+    # CluterIP dont need nodePort, but if we change type to NodePort, then we need to specify nodePort here.
     # nodePort: 3001
