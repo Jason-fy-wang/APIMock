@@ -26,3 +26,9 @@ kubectl run tmp --rm -it --image=busybox -- sh
 
 # k8s port-forward
 kubectl port-forward -n mockspace svc/mockservice 8080:80
+
+#create config from cmd
+kubectl create configmap mock-config --from-literal=key=value -n mockspace
+
+#create secret from cmd
+kubectl create secret generic mock-secret --from-literal=username=admin --from-literal=password=secret -n mockspace

@@ -1,0 +1,15 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mockconfig
+  namespace: mockspace
+data:
+  APP_ENV: "prd"
+  PORT: "8080"
+  config.json: |
+    {
+      "database": {
+        "host": "localhost",
+        "port": 3306
+        }
+    }
