@@ -33,12 +33,12 @@ spec:
             name: mockconfig
             #key: PORT    # we can inject specific key from configmap, but here we inject all keys
             #key: APP_ENV
-        # env:
-        # - name: DB_PASSWORD
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: mocksecret
-        #       key: DB_PASSWORD
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mocksecret
+              key: DB_PASSWORD
         resources:
           requests:
             cpu: 100m
@@ -64,7 +64,7 @@ spec:
           failureThreshold: 3
           periodSeconds: 10
         ports:
-        - containerPort:  3000   # this doesn't affect the real pod port. just metadata
+        - containerPort:  8080   # this doesn't affect the real pod port. just metadata
           name:  mockport   # named port
         volumeMounts:
         - name: localtime
