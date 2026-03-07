@@ -71,6 +71,17 @@ image:
   pullPolicy: Never
   tag: "1.0"
 
+envs:
+  envFrom:
+    - configMapRef:
+        name: mockconfig
+  env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mocksecret
+          key: DB_PASSWORD
+
 resources: 
   requests:
     cpu: 100m
