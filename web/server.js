@@ -123,6 +123,13 @@ function configCommonFunction(app){
 }
 
 function middileware(app){
+    // Request logging middleware - logs all incoming requests
+    app.use((req, res, next) => {
+        logger.info(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+        logger.info(`Headers:`, req.headers);
+        next();
+    });
+
     // config cross region
     app.use(cors(
         {
@@ -134,14 +141,28 @@ function middileware(app){
     ));
     // json middleware for body parsing
     app.use(express.json());
+    logger.info('JSON middleware configured');
     // urlencoded middleware for form data parsing  
     app.use(express.urlencoded({ extended: true }));
+    logger.info('URL-encoded middleware configured');
     return app;
 }
 
 // absolute path of folder
 function staticConfig(app, folder){
-    app.use(express.static(folder));
+    logger.info(`Configuring static file serving from: ${folder}`);
+    app.use((req, res, next) => {
+        logger.info(`[Static] Attempting to serve from ${folder} for request: ${req.url}`);
+        next();
+    });
+    app.use(express.static(folder, {
+        dotfiles: 'deny',
+        redirect: false
+    }));
+    app.use((req, res, next) => {
+        logger.info(`[Static] No static file found for ${req.url}, passing to next handler`);
+        next();
+    });
 
     return app;
 }
@@ -154,6 +175,12 @@ export async function setupApp(app, configfile = 'mock.json') {
     configCommonFunction(app);
     await configRouteFromcFile(app, config);
     staticConfig(app, path.join(__dirname, 'public'));
+    
+    // Catch-all 404 handler
+    app.use((req, res) => {
+        logger.warn(`[404] No handler found for ${req.method} ${req.url}`);
+        res.status(404).json({ error: 'Not found', path: req.url, method: req.method });
+    });
 }
 async function start(){
     await setupApp(app);
