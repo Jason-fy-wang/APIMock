@@ -4,6 +4,7 @@ metadata:
   name: {{ include "mockapi.fullname" . }}
   labels:
     {{- include "mockapi.labels" . | nindent 4 }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
 spec:
   type: {{ .Values.service.type }}
   ports:
