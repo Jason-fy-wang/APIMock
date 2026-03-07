@@ -38,9 +38,9 @@ kubectl config set-context --current --namespace=mockspace
 
 ## debug service account access
 kubectl run tmp --rm -it --image=busybox --serviceaccount=mock-sa -- sh    # run specific account
-kubectl auth can-i <VERB> <RESOURCE> --as=system:serviceaccount:<NAMESPACE>:<SERVICE_ACCOUNT_NAME>
-kubectl auth can-i delete deployment --as=system:serviceaccount:mockspace:mock-sa
-kubectl auth can-i get deployment --as=system:serviceaccount:mockspace:mock-sa
+kubectl auth can-i <VERB> <RESOURCE> -n <NEMESPACE> --as=system:serviceaccount:<NAMESPACE>:<SERVICE_ACCOUNT_NAME>
+kubectl auth can-i delete deployment -n mockspace --as=system:serviceaccount:mockspace:mock-sa
+kubectl auth can-i get deployment -n mockspace --as=system:serviceaccount:mockspace:mock-sa
 
 ## create sericeaccount token
 kubectl create token <service_name>  --duration=24h -n <namespace>
