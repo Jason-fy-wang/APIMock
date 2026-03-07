@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# build image
+docker build -t mock:1.0 -f Dockerfile .
+
 # create kind cluster
 kind create cluster --name mock --config=./devops/deploy/kind-config.yaml
 
