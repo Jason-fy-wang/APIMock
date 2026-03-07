@@ -8,3 +8,6 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main
 
 # load image into kind cluster
 kind load docker-image mock:1.0 --name mock
+
+# install chart
+helm install mock mockapi -f ./devops/helm/mockapi/values.yaml
