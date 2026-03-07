@@ -1,0 +1,9 @@
+apiVersion: v2
+name: mockapi
+description: A mock service which can provide mock data for testing and development purposes.
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.0"

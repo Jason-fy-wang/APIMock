@@ -1,0 +1,136 @@
+# common values
+replicaCount: 1
+namespace: "mockspace"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: "mockservice"
+    
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+# config map
+configmap:
+  name: "mockconfig"
+  data:
+    APP_ENV: "prd"
+    PORT: "8080"
+    config.json: |
+      {
+        "database": {
+          "host": "localhost",
+          "port": 3306
+          }
+      }
+
+# secret
+secret:
+  name: "mocksecret"
+  type: Opaque
+  data:
+    DB_PASSWORD: cGFzc3dvcmQ=  # "password" encoded in base64
+  
+# role
+role:
+  name: "mock-role"
+  rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["pods"]
+    verbs: ["get", "watch", "list"]
+
+  - apiGroups: [""] # "" indicates the core API group
+    resources: ["services"]
+    verbs: ["get", "watch", "list"]
+
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "watch", "list"]
+
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "watch", "list"]
+
+# rolebinding
+rolebinding:
+  name: "mock-rolebinding"
+
+# deployment
+image:
+  repository: docker.io/library/mock
+  pullPolicy: Never
+  tag: "1.0"
+
+resources: 
+  requests:
+    cpu: 100m
+    memory: 100Mi
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
+
+volumes: 
+  - name: localtime
+    hostPath:
+      path: /usr/share/zoneinfo/Asia/Shanghai
+  - name: mock-config
+    configMap:
+      name: mockconfig
+      
+volumeMounts: 
+  - name: localtime
+    mountPath: /etc/localtime
+  - name: mock-config
+    mountPath: /app/config
+    readOnly: true
+
+# service account
+serviceAccount:
+  create: false
+  automount: true
+  annotations: {}
+  name: "mock-sa"
+
+
+# service
+service:
+  type: ClusterIP
+  port: 80
+
+# ingress
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: mock.service
+      paths:
+        - path: /
+          pathType: Prefix
+
+# HPA
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
