@@ -1,0 +1,15 @@
+# https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mockrolebind
+  namespace: mockspace
+subjects:
+- kind: User
+  name: mock-sa # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: mock-role
+  apiGroup: rbac.authorization.k8s.io
+---

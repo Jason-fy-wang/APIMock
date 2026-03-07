@@ -20,6 +20,7 @@ spec:
       labels:
         app:  mockapi
     spec:
+      serviceAccountName: mock-sa    # bind service account to deployment
       # initContainers:
         # Init containers are exactly like regular containers, except:
           # - Init containers always run to completion.
