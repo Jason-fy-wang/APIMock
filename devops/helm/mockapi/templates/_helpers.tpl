@@ -55,7 +55,7 @@ Create the name of the service account to use
 */}}
 {{- define "mockapi.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "mockapi.fullname" .) .Values.serviceAccount.name }}
+{{- .Values.serviceAccount.name }}
 {{- else }}
 {{- .Values.serviceAccount.name }}
 {{- end }}

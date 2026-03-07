@@ -116,8 +116,8 @@ volumeMounts:
 
 # service account
 serviceAccount:
-  create: false
-  automount: true
+  create: true
+  automount: false
   annotations: {}
   name: "mock-sa"
 
