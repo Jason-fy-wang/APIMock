@@ -35,3 +35,13 @@ kubectl create secret generic mock-secret --from-literal=username=admin --from-l
 
 # set namespace config:
 kubectl config set-context --current --namespace=mockspace
+
+## debug service account access
+kubectl run tmp --rm -it --image=busybox --serviceaccount=mock-sa -- sh    # run specific account
+kubectl auth can-i <VERB> <RESOURCE> --as=system:serviceaccount:<NAMESPACE>:<SERVICE_ACCOUNT_NAME>
+kubectl auth can-i delete deployment --as=system:serviceaccount:mockspace:mock-sa
+kubectl auth can-i get deployment --as=system:serviceaccount:mockspace:mock-sa
+
+## create sericeaccount token
+kubectl create token <service_name>  --duration=24h -n <namespace>
+curl -H "Authorization: Bearer <token>" -k https://<cluster_ip>:6443/api/v1/namespaces/<namespace>/pods
