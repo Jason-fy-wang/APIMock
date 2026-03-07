@@ -5,9 +5,10 @@ metadata:
   name: mockrolebind
   namespace: mockspace
 subjects:
-- kind: User
-  name: mock-sa # Name is case sensitive
-  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: mock-sa                # must match the service account name
+  namespace: mockspace
+
 roleRef:
   kind: Role
   name: mock-role
